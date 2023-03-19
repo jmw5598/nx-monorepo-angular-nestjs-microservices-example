@@ -1,22 +1,42 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
-import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ValidationPipe, ValidationPipeOptions } from '@nestjs/common';
 
-import { AppModule } from './app/app.module';
+import { EnvironmentService } from '@vsp/services/core';
+
+import { GatewayModule } from './app/gateway.module';
+import { RpcExceptionFilter } from './app/filters/rpc-exception.filter';
+
+const routesToExcludeFromGlobalRoutePrefix: string[] = [
+  
+];
+
+const globalValidationPipeOptions: ValidationPipeOptions = {
+  transform: true,
+  skipMissingProperties: false,
+  skipNullProperties: false,
+  skipUndefinedProperties: false,
+} as ValidationPipeOptions;
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || 3333;
-  await app.listen(port);
-  Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
-  );
+  const environmentService: EnvironmentService = new EnvironmentService();
+  const app = await NestFactory.create(GatewayModule);
+
+  app.useGlobalPipes(new ValidationPipe(globalValidationPipeOptions));
+  app.enableCors({ origin: environmentService.get('CORS_ORIGIN') });
+  app.useGlobalFilters(new RpcExceptionFilter());
+  app.setGlobalPrefix('api/v1', { exclude: routesToExcludeFromGlobalRoutePrefix });
+  
+  const options = new DocumentBuilder()
+    .setTitle('API Docs')
+    .addTag('auth')
+    .setVersion('1.0')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('api', app, document);
+  
+  await app.listen(environmentService.get('API_GATEWAY_PORT'));
 }
 
 bootstrap();

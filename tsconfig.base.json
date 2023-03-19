@@ -14,7 +14,12 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@vsp/services/authorization": ["libs/services/authorization/src/index.ts"],
+      "@vsp/services/logger": ["libs/services/logger/src/index.ts"],
+      "@vsp/services/common": ["libs/services/common/src/index.ts"],
+      "@vsp/services/core": ["libs/services/core/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
