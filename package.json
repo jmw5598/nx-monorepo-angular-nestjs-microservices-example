@@ -2,7 +2,8 @@
   "name": "nx-monorepo-angular-nestjs-microservices-example",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~15.2.0",

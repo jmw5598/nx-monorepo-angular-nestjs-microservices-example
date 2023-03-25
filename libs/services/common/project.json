@@ -24,6 +24,50 @@
           "codeCoverage": true
         }
       }
+    },
+    "typeorm": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "ts-node --project ./libs/services/common/tsconfig.json ./node_modules/typeorm/cli",
+        "cwd": ""
+      }
+    },
+    "migration-generate": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "nx run services-common:typeorm migration:generate ./database/migrations/{args.name} -d ./database/data-source.ts",
+        "cwd": "",
+        "envFile": ".env.serve.development"
+      }
+    },
+    "migration-create": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "nx run services-common:typeorm migration:create ./database/migrations/{args.name}",
+        "cwd": "",
+        "envFile": ".env.serve.development"
+      }
+    },
+    "migration-run-dev": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "nx run services-common:typeorm migration:run -t each -d ./database/data-source.ts",
+        "cwd": "",
+        "envFile": ".env.serve.development"
+      }
+    },
+    "migration-revert-dev": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "nx run services-common:typeorm migration:revert -d ./database/data-source.ts",
+        "cwd": "",
+        "envFile": ".env.serve.development"
+      }
     }
   },
   "tags": []
