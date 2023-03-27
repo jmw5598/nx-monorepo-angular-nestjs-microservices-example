@@ -1,0 +1,68 @@
+<ng-container *ngIf="tableDefinition?.columns">
+  <button 
+      role="button"
+      type="button"
+      title="Show,hide, & order table columns"
+      nz-button 
+      nzType="default"
+      nz-dropdown
+      [nzDropdownMenu]="menu"
+      [nzPlacement]="dropdownPosition"
+      nzTrigger="click"
+      [nzClickHide]="false">
+    <i nz-icon nzType="setting" nzTheme="outline"></i>
+  </button>
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul 
+        nz-menu
+        style="width: 250px;" 
+        class="pt-2"
+        cdkDropList
+        [cdkDropListData]="tableDefinition?.columns || []"
+        (cdkDropListDropped)="onDropColumn($event)">
+      <ng-container *ngFor="let column of tableDefinition?.columns">
+        <li cdkDrag nz-menu-item class="py-0 px-4 block w-100">
+          <div class="flex flex-row align-items-center">
+            <span class="flex-grow" style="flex-grow: 1;">
+              <label 
+                  nz-checkbox 
+                  [nzDisabled]="!column.canModify"
+                  [(ngModel)]="column.isVisible">
+                {{ column.label }}
+              </label> 
+            </span>
+            <span class="mt-1" cdkDragHandle>
+              <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-grabber">
+                <path fill-rule="evenodd" d="M10 13a1 1 0 100-2 1 1 0 000 2zm-4 0a1 1 0 100-2 1 1 0 000 2zm1-5a1 1 0 11-2 0 1 1 0 012 0zm3 1a1 1 0 100-2 1 1 0 000 2zm1-5a1 1 0 11-2 0 1 1 0 012 0zM6 5a1 1 0 100-2 1 1 0 000 2z"></path>
+              </svg>
+            </span>
+          </div>
+        </li>
+      </ng-container>
+      <li nz-menu-divider></li>
+      <li nz-menut-item>
+        <div class="p-1 text-right">
+          <button
+              class="mr-1"
+              role="button"
+              type="button"
+              nz-button
+              nzType="primary"
+              nzSize="small"
+              (click)="apply(tableDefinition)">
+            Apply
+          </button>
+          <button
+              role="button"
+              type="button"
+              nz-button
+              nzType="default"
+              nzSize="small"
+              (click)="reset()">
+            Reset
+          </button>
+        </div>
+      </li>
+    </ul>
+  </nz-dropdown-menu>
+</ng-container>

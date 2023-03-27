@@ -15,10 +15,30 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@vsp/services/authorization": ["libs/services/authorization/src/index.ts"],
-      "@vsp/services/logger": ["libs/services/logger/src/index.ts"],
-      "@vsp/services/common": ["libs/services/common/src/index.ts"],
-      "@vsp/services/core": ["libs/services/core/src/index.ts"]
+      "@vsp/clients/core": [
+        "libs/clients/core/src/index.ts"
+      ],
+      "@vsp/clients/datatable": [
+        "libs/clients/datatable/src/index.ts"
+      ],
+      "@vsp/clients/forms": [
+        "libs/clients/forms/src/index.ts"
+      ],
+      "@vsp/query-search-filters": [
+        "libs/clients/query-search-filters/src/index.ts"
+      ],
+      "@vsp/services/authorization": [
+        "libs/services/authorization/src/index.ts"
+      ],
+      "@vsp/services/common": [
+        "libs/services/common/src/index.ts"
+      ],
+      "@vsp/services/core": [
+        "libs/services/core/src/index.ts"
+      ],
+      "@vsp/services/logger": [
+        "libs/services/logger/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

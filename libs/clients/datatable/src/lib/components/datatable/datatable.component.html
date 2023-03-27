@@ -1,0 +1,174 @@
+<nz-table 
+    [nzData]="page?.elements || []"
+    [nzFrontPagination]="false"
+    [nzTotal]="page?.totalElements || 0"
+    [nzPageIndex]="(page?.current?.index || 0) + 1"
+    
+    [nzScroll]="settings.scroll"
+    [nzBordered]="settings.bordered"
+    [nzSize]="settings.size"
+    [nzPageSizeOptions]="settings?.pageSizeChanger?.options || [10, 20, 30]"
+    [nzShowSizeChanger]="settings?.pageSizeChanger?.show || false"
+    (nzPageIndexChange)="pageIndexChanged($event)"
+    (nzPageSizeChange)="pageSizeChanged($event)">
+  <thead *ngIf="definition?.columns?.length">
+    <tr>
+      <ng-container *ngFor="let column of definition?.columns">
+        <ng-container *ngIf="column?.isVisible">
+          <ng-container *ngIf="(column?.sortable || false); else nonSortableColumnTemplate">
+            <th 
+                [nzWidth]="column?.width || null" 
+                
+                [nzSortFn]="column?.sortable || null" 
+                (nzSortOrderChange)="sortOrderChanged(column.property, $event)">
+              {{ column.label }}
+            </th>
+          </ng-container>
+          <ng-template #nonSortableColumnTemplate>
+            <th [nzWidth]="column?.width || null">{{ column.label }}</th>
+          </ng-template>
+        </ng-container>
+      </ng-container>
+      <th *ngIf="actionsContent" [nzWidth]="actionsWidth" [nzRight]="true">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngIf="page?.elements?.length && definition?.columns?.length">
+      <tr *ngFor="let row of page?.elements">
+        <ng-container *ngFor="let column of definition?.columns">
+          <ng-container *ngIf="column?.isVisible">
+            <td>
+              <ng-container 
+                  [ngTemplateOutlet]="switchOnColumnTypeTemplate"
+                  [ngTemplateOutletContext]="{ row, column }">
+              </ng-container>
+            </td>
+          </ng-container>
+        </ng-container>
+        
+        <td *ngIf="actionsContent" [nzRight]="true">
+          <ng-container
+              [ngTemplateOutlet]="actionsContent"
+              [ngTemplateOutletContext]="{ row }">
+          </ng-container>
+        </td>
+      </tr>
+    </ng-container>
+  </tbody>
+</nz-table>
+
+<!-- Determines which cell type to render -->
+<ng-template #switchOnColumnTypeTemplate let-row="row" let-column="column">
+  <ng-container [ngSwitch]="column.type">
+    <ng-container 
+      *ngSwitchCase="ColumnType.TEXT"
+      [ngTemplateOutlet]="textColumnTypeTemplate"
+      [ngTemplateOutletContext]="{ row, column }">
+    </ng-container>
+    <ng-container 
+      *ngSwitchCase="ColumnType.TEXT_TRUNCATED"
+      [ngTemplateOutlet]="textTruncatedColumnTypeTemplate"
+      [ngTemplateOutletContext]="{ row, column }">
+    </ng-container>
+    <ng-container 
+      *ngSwitchCase="ColumnType.EMAIL"
+      [ngTemplateOutlet]="emailColumnTypeTemplate"
+      [ngTemplateOutletContext]="{ row, column }">
+    </ng-container>
+    <ng-container 
+      *ngSwitchCase="ColumnType.IMAGE"
+      [ngTemplateOutlet]="imageColumnTypeTemplate"
+      [ngTemplateOutletContext]="{ row, column }">
+    </ng-container>
+    <ng-container 
+      *ngSwitchCase="ColumnType.DATE"
+      [ngTemplateOutlet]="dateColumnTypeTemplate"
+      [ngTemplateOutletContext]="{ row, column }">
+    </ng-container>
+    <ng-container 
+      *ngSwitchCase="ColumnType.DATE_TIME"
+      [ngTemplateOutlet]="dateTimeColumnTypeTemplate"
+      [ngTemplateOutletContext]="{ row, column }">
+    </ng-container>
+    <ng-container 
+      *ngSwitchCase="ColumnType.CURRENCY"
+      [ngTemplateOutlet]="currencyColumnTypeTemplate"
+      [ngTemplateOutletContext]="{ row, column }">
+    </ng-container>
+    <ng-container 
+      *ngSwitchCase="ColumnType.TITLE"
+      [ngTemplateOutlet]="titleColumnTypeTemplate"
+      [ngTemplateOutletContext]="{ row, column }">
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template 
+    #textColumnTypeTemplate 
+    let-row="row" 
+    let-column="column">
+  {{ row | deepPropertyAccess: column?.property }}
+</ng-template>
+
+<ng-template 
+    #textTruncatedColumnTypeTemplate 
+    let-row="row" 
+    let-column="column">
+  {{ (row | deepPropertyAccess: column?.property) | truncate: column?.options?.truncateLength }}
+</ng-template>
+
+<ng-template 
+    #emailColumnTypeTemplate 
+    let-row="row" 
+    let-column="column">
+  <a [href]="'mailto:' + (row | deepPropertyAccess: column?.property)" alt="Email address">
+    {{ row | deepPropertyAccess: column?.property }}
+  </a>
+</ng-template>
+
+<ng-template 
+    #imageColumnTypeTemplate 
+    let-row="row" 
+    let-column="column">
+  <div class="flex flex-row justify-content-center align-items-center">
+    <nz-avatar
+        [nzSrc]="row | deepPropertyAccess: column?.property"
+        [nzShape]="'circle'" 
+        [nzSize]="'large'" 
+        [nzIcon]="'user'">
+    </nz-avatar>
+  </div>
+</ng-template>
+
+<ng-template 
+    #dateColumnTypeTemplate 
+    let-row="row" 
+    let-column="column"><ng-template 
+    #currencyColumnTypeTemplate 
+    let-row="row" 
+    let-column="column">
+  {{ (row | deepPropertyAccess: column?.property) | currency }}
+</ng-template>
+  {{ (row | deepPropertyAccess: column?.property) | date: 'MM/dd/yyyy' }}
+</ng-template>
+
+<ng-template 
+    #dateTimeColumnTypeTemplate 
+    let-row="row" 
+    let-column="column">
+  {{ (row | deepPropertyAccess: column?.property) | date: 'MM/dd/yyyy hh:mm:ss a' }}
+</ng-template>
+
+<ng-template 
+    #currencyColumnTypeTemplate 
+    let-row="row" 
+    let-column="column">
+  {{ (row | deepPropertyAccess: column?.property) | currency }}
+</ng-template>
+
+<ng-template 
+    #titleColumnTypeTemplate 
+    let-row="row" 
+    let-column="column">
+  {{ (row | deepPropertyAccess: column?.property) | titlecase }}
+</ng-template>

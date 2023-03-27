@@ -17,9 +17,18 @@
         "inlineStyleLanguage": "scss",
         "assets": [
           "apps/clients/admin/src/favicon.ico",
-          "apps/clients/admin/src/assets"
+          "apps/clients/admin/src/assets",
+          {
+            "input": "assets/images",
+            "output": "assets/images",
+            "glob": "*" 
+          }
         ],
-        "styles": ["apps/clients/admin/src/styles.scss"],
+        "styles": [
+          "assets/ng-zorro/theme.less",
+          "assets/scss/_main.scss",
+          "apps/clients/admin/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {

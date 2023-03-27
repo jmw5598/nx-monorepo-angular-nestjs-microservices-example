@@ -1,0 +1,42 @@
+// Spacing Sizies
+$spacing-size-0: 0;
+$spacing-size-1: 0.5rem;
+$spacing-size-2: 0.75rem;
+$spacing-size-3: 1rem;
+$spacing-size-4: 1.25rem;
+$spacing-size-5: 1.5rem;
+
+// Padding Sizes
+$padding-0: $spacing-size-0;
+$padding-1: $spacing-size-1;
+$padding-2: $spacing-size-2;
+$padding-3: $spacing-size-3;
+$padding-4: $spacing-size-4;
+$padding-5: $spacing-size-5;
+
+// Margin Sizes
+$margin-0: $spacing-size-0;
+$margin-1: $spacing-size-1;
+$margin-2: $spacing-size-2;
+$margin-3: $spacing-size-3;
+$margin-4: $spacing-size-4;
+$margin-5: $spacing-size-5;
+
+// Media Query Breakpoints
+$screen-xs: 480px;
+$screen-xs-min: $screen-xs;
+$screen-sm: 576px;
+$screen-sm-min: $screen-sm;
+$screen-md: 768px;
+$screen-md-min: $screen-md;
+$screen-lg: 992px;
+$screen-lg-min: $screen-lg;
+$screen-xl: 1200px;
+$screen-xl-min: $screen-xl;
+$screen-xxl: 1600px;
+$screen-xxl-min: $screen-xxl;
+$screen-xs-max: ($screen-sm-min - 1px);
+$screen-sm-max: ($screen-md-min - 1px);
+$screen-md-max: ($screen-lg-min - 1px);
+$screen-lg-max: ($screen-xl-min - 1px);
+$screen-xl-max: ($screen-xxl-min - 1px);

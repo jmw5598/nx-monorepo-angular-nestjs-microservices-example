@@ -1,0 +1,9 @@
+.gradient-primary {
+  background: rgb(69,126,210);
+  background: linear-gradient(90deg, rgba(69,126,210,1) 0%, rgba(72,69,210,1) 35%, rgba(175,0,255,1) 100%);
+}
+
+.gradient-primary-overlay-white {
+  background-color: rgba(255, 255, 255, 0.15);  // White color overlay
+}
+

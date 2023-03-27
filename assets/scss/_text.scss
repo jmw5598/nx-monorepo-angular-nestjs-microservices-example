@@ -1,0 +1,45 @@
+// Text alignment
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+// Font Weight
+.fw-bold { font-weight: bold; }
+.fw-bolder { font-weight: bolder; }
+.fw-normal { font-weight: normal; }
+.fw-lighter { font-weight: lighter; }
+
+.fw-100 { font-weight: 100; }
+.fw-200 { font-weight: 200; }
+.fw-300 { font-weight: 300; }
+.fw-400 { font-weight: 400; }
+.fw-500 { font-weight: 500; }
+.fw-600 { font-weight: 600; }
+.fw-700 { font-weight: 700; }
+.fw-800 { font-weight: 800; }
+.fw-900 { font-weight: 900; }
+
+.fs-italic { font-style: italic; }
+.fs-normal { font-style: normal; }
+
+.text-white {
+  color: #FFF !important;
+}
+
+.text-wrap {
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.text-primary {
+  color: var(--nz-primary-color) !important;
+}
+
+.text-warning {
+  color: var(--nz-warning-color) !important;
+}
+
+.text-error {
+  color: var(--nz-error-color) !important;
+}
+

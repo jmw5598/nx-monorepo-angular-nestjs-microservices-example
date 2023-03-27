@@ -1,0 +1,34 @@
+$border-width: 8px;
+$track-color: #FFF;
+$thumb-color: #AAA;
+$thumb-color-hover: #888;
+
+/* width */
+::-webkit-scrollbar  {
+  width: $border-width;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: $border-width;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: $track-color;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $thumb-color;
+  border-radius: $border-width;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $thumb-color-hover;
+}
+
+// ::-webkit-scrollbar-thumb:horizontal{
+    
+//     border-radius: 10px;
+// }

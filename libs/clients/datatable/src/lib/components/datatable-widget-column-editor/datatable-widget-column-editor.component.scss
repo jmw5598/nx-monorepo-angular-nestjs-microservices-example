@@ -1,0 +1,8 @@
+.cdk-drag-preview {
+  z-index: 10001 !important;
+}
+
+.cdk-drag-placeholder {
+  background: transparent;
+  opacity: 0;
+}

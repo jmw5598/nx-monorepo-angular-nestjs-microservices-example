@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+// Local
+@import '../../../../assets/scss/variables';
+@import '../../../../assets/scss/main';
+
+body {
+  background: var(--nz-layout-body-background);
+}
