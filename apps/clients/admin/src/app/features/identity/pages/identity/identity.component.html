@@ -1,0 +1,24 @@
+<div class="layout-container" [@fadeAnimation]>
+  <div class="layout-column-left">
+    <div class="layout-column-overlay">
+      <div class="layout-logo p-4">
+        <img class="block" style="max-height: 52px;" src="assets/images/logo-reversed.svg" />
+      </div>
+    </div>
+  </div>
+  <nz-row class="layout-column-right">
+    <nz-col [nzXs]="24">
+      <nz-row nzJustify="center" class="d-none-lg">
+        <nz-col [nzXs]="18" [nzSm]="18" [nzMd]="12" [nzLg]="10" [nzXl]="10" [nzXXl]="8">
+          <img class="block m-auto" style="max-height: 36px;" src="assets/images/logo.svg">
+          <nz-divider></nz-divider>
+        </nz-col>
+      </nz-row>
+      <nz-row nzJustify="center">
+        <nz-col [nzXs]="18" [nzSm]="18" [nzMd]="12" [nzLg]="10" [nzXl]="10" [nzXXl]="10">
+          <router-outlet></router-outlet>
+        </nz-col>
+      </nz-row>
+    </nz-col>
+  </nz-row>
+</div>

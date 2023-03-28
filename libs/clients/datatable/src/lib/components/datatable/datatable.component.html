@@ -7,8 +7,8 @@
     [nzScroll]="settings.scroll"
     [nzBordered]="settings.bordered"
     [nzSize]="settings.size"
-    [nzPageSizeOptions]="settings?.pageSizeChanger?.options || [10, 20, 30]"
-    [nzShowSizeChanger]="settings?.pageSizeChanger?.show || false"
+    [nzPageSizeOptions]="settings.pageSizeChanger.options || [10, 20, 30]"
+    [nzShowSizeChanger]="settings.pageSizeChanger.show || false"
     (nzPageIndexChange)="pageIndexChanged($event)"
     (nzPageSizeChange)="pageSizeChanged($event)">
   <thead *ngIf="definition?.columns?.length">

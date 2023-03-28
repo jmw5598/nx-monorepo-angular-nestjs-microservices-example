@@ -1,0 +1,155 @@
+<div class="block" *ngIf="templateModulePermissionNameForm" [formGroup]="templateModulePermissionNameForm">
+  <div class="w-100" nz-row [nzGutter]="16">
+    <div class="bordered-right" nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="8" nzXl="8">
+      <div class="block p-4">
+
+        <!-- Template Details Section -->
+        <nz-divider nzOrientation="center" nzText="Template Details"></nz-divider>
+        <div formGroupName="templateModulePermissionName">
+          <nz-form-item>
+            <nz-form-label class="text-left"  [nzXs]="24" nzRequired nzFor="name">Name</nz-form-label>
+            <nz-form-control [nzXs]="24" [nzErrorTip]="nameErrorTemplate">
+              <input vspAutoFocusControl type="text" nz-input formControlName="name" />
+              <ng-template #nameErrorTemplate let-control>
+                <ng-container *ngIf="control.hasError('required')">Name is required!</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label class="text-left" [nzXs]="24" nzRequired nzFor="description">Description</nz-form-label>
+            <nz-form-control [nzXs]="24" [nzErrorTip]="descriptionErrorTemplate">
+              <textarea type="password" nz-input formControlName="description" rows="6"></textarea>
+              <ng-template #descriptionErrorTemplate let-control>
+                <ng-container *ngIf="control.hasError('required')">Description is required!</ng-container>
+                <ng-container *ngIf="control.hasError('pattern')">Description must be 6 characters (upper/lower case, numbers and symbols)!</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      
+      </div>
+    </div>
+    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="16" nzXl="16">
+      <div class="block p-4">
+        <!-- Template Permissions Section -->
+        <nz-divider nzOrientation="left" nzText="Template Permissions"></nz-divider>
+        <ng-container [formGroup]="templateModulePermissionNameForm">
+          <ng-container formArrayName="templateModulePermissions">
+            <ng-container [formGroupName]="i" *ngFor="let module of templateModulePermissions?.controls; let i = index">
+              <nz-collapse class="mb-2">
+                  <nz-collapse-panel
+                    class="p-0"
+                    [nzHeader]="modulePanelHeader"
+                    [nzActive]="module.value.hasAccess"
+                    [nzDisabled]="!module.value.hasAccess"
+                    [nzShowArrow]="false">
+                  <ng-template #modulePanelHeader>
+                    <div nz-row  [nzGutter]="16">
+                      <div nz-col nzXs="24" nzSm="26" nzMd="12" nzLg="12" nzXl="15" class="permissions-header-text">
+                        <label 
+                            nz-checkbox 
+                            formControlName="hasAccess"
+                            (ngModelChange)="onTemplateModulePermissionAccessChange($event, module)">
+                          {{ module?.value.modulePermission?.name }}
+                        </label>
+                        <div class="ml-5">
+                          <small><a>
+                            {{ module?.value?.hasAccess ? 'Hide' : 'Show' }} all {{ module?.value?.templatePermissions?.length || 0 }} sub permissions</a></small>
+                        </div>
+                      </div>
+                      <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="9" class="permissions-header-actions">
+                        <div class="permissions-header-action">
+                          <div class="permissions-header-action-label">Create</div>
+                          <nz-switch 
+                              nzSize="small"
+                              [nzDisabled]="!module.value.hasAccess"
+                              formControlName="canCreateAll"
+                              (ngModelChange)="onTemplateModulePermissionCanCreateAllChange($event, module)"
+                              (click)="$event.stopPropagation()">
+                          </nz-switch>
+                        </div>
+                        <div class="permissions-header-action">
+                          <div class="permissions-header-action-label">Read</div>
+                          <nz-switch
+                              nzSize="small" 
+                              [nzDisabled]="!module.value.hasAccess"
+                              formControlName="canReadAll"
+                              (ngModelChange)="onTemplateModulePermissionCanReadAllChange($event, module)"
+                              (click)="$event.stopPropagation()">
+                          </nz-switch>
+                        </div>
+                        <div class="permissions-header-action">
+                          <div class="permissions-header-action-label">Update</div>
+                          <nz-switch 
+                              nzSize="small" 
+                              [nzDisabled]="!module.value.hasAccess"
+                              formControlName="canUpdateAll"
+                              (ngModelChange)="onTemplateModulePermissionCanUpdateAllChange($event, module)"
+                              (click)="$event.stopPropagation()">
+                          </nz-switch>
+                        </div>
+                        <div class="permissions-header-action">
+                          <div class="permissions-header-action-label">Delete</div>
+                          <nz-switch 
+                              nzSize="small" 
+                              [nzDisabled]="!module.value.hasAccess"
+                              formControlName="canDeleteAll"
+                              (ngModelChange)="onTemplateModulePermissionCanDeleteAllChange($event, module)"
+                              (click)="$event.stopPropagation()">
+                          </nz-switch>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                  <ng-container>
+                    <ul class="bordered-none" nz-list nzBordered nzSize="large" formArrayName="templatePermissions">
+                      <li 
+                          nz-list-item 
+                          nzNoFlex
+                          [formGroupName]="c"
+                          *ngFor="let permission of getTemplatePermissionsFormArray(module)?.controls; let c = index">
+                        <div nz-row  [nzGutter]="16">
+                          <div nz-col nzXs="24" nzSm="26" nzMd="12" nzLg="12" nzXl="15"  class="permissions-header-text">
+                            {{ permission?.value?.permission?.name }}
+                          </div>
+                          <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="9" class="permissions-header-actions">
+                            <div class="permissions-header-action">
+                              <label
+                                  formControlName="canCreate"
+                                  nz-checkbox>
+                              </label>
+                            </div>
+                            <div class="permissions-header-action">
+                              <label 
+                                  formControlName="canRead"
+                                  nz-checkbox>
+                              </label>
+                            </div>
+                            <div class="permissions-header-action">
+                              <label 
+                                  formControlName="canUpdate"
+                                  nz-checkbox>
+                              </label>
+                            </div>
+                            <div class="permissions-header-action">
+                              <label 
+                                  formControlName="canDelete"
+                                  nz-checkbox>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </ng-container>
+                </nz-collapse-panel>
+              </nz-collapse>
+
+            </ng-container>
+          </ng-container>
+        </ng-container>
+
+      </div>
+    </div>
+  </div>
+</div>

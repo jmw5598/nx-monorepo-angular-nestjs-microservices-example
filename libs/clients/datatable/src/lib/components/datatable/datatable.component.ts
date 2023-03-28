@@ -9,7 +9,7 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTableModule } from 'ng-zorro-antd/table';
 
-import { Page, PageRequest, Sort, SortDirection } from '@vsp/core';
+import { Page, PageRequest, Sort, SortDirection } from '@vsp/clients/core';
 
 import { ColumnType } from '../../models/column-type.enum';
 import { DEFAULT_PJO_DATATABLE_SETTINGS, VspDatatableSettings } from '../../models/datatable-settings.model';

@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'vsp-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  template: '<router-outlet></router-outlet>',
+  standalone: true,
+  imports: [
+    RouterOutlet
+  ]
 })
-export class AppComponent {
-  title = 'admin';
-}
+export class AppComponent { }

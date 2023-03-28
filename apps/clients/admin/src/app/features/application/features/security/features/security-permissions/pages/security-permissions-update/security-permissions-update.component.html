@@ -1,0 +1,30 @@
+<nz-page-header style="background: white;" class="bordered-bottom" nzTitle="Update Permissions Template" nzBackIcon>
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>
+      <a>Security</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a>Permissions</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item *ngIf="selectedTemplateModulePermissionName$ | async as templateModulePermissionName">
+      <a>{{ templateModulePermissionName.name }}</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>Update</nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <nz-page-header-extra>
+    <button
+        nz-button 
+        nzType="primary"
+        (click)="onUpdateTempalteModulePermissionName(updateTemplateModulePermissionNameForm.value)">
+      Update Permissions Template
+    </button>
+  </nz-page-header-extra>
+</nz-page-header>
+
+<div [@fadeAnimation] class="p-4">
+  <nz-card class="w-100 p-0">
+    <form class="block" [formGroup]="updateTemplateModulePermissionNameForm">
+      <vsp-template-module-permission-name-form></vsp-template-module-permission-name-form>
+    </form>
+  </nz-card>
+</div>

@@ -1,0 +1,37 @@
+<nz-page-header style="background: white;" class="bordered-bottom" nzTitle="Create User Account" nzBackIcon>
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>
+      <a>Administration</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a>User Accounts</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>Create</nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <nz-page-header-extra>
+    <button
+        class="mr-1"
+        (click)="onCreateUserAccount(createUserAccountForm.value, true)"
+        nz-button 
+        nzType="primary">
+      Save
+    </button>
+    <button
+        (click)="onCreateUserAccount(createUserAccountForm.value, false)"
+        nz-button 
+        nzType="default">
+      Save & Create Another
+    </button>
+  </nz-page-header-extra>
+</nz-page-header>
+
+<div [@fadeAnimation] class="p-4">
+  <nz-card class="w-100 p-0">
+    <form class="block" [formGroup]="createUserAccountForm">
+      <vsp-user-account-create-form
+          [templateModulePermissionNames]="templateModulePermissionNames$ | async"
+          (selectTemplateModulePermissionName)="onTemplateModulePermissionNameSelected($event)">
+      </vsp-user-account-create-form>
+    </form>
+  </nz-card>
+</div>

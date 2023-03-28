@@ -1,0 +1,34 @@
+<nz-page-header style="background: white;" class="bordered-bottom" nzTitle="Update User Account" nzBackIcon>
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>
+      <a>Administration</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a>User Accounts</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item *ngIf="selectedUserAccount$ | async as account">
+      <a>{{ account?.profile?.firstName }} {{ account?.profile?.lastName }}</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>Update</nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <nz-page-header-extra>
+    <button
+        nz-button 
+        nzType="primary"
+        (click)="onUpdateUserAccount(updateUserAccountForm.value)">
+      Update User Account
+    </button>
+  </nz-page-header-extra>
+</nz-page-header>
+
+<div [@fadeAnimation] class="p-4">
+  <nz-card class="w-100 p-0">
+    <form class="block" [formGroup]="updateUserAccountForm">
+      <vsp-user-account-update-form
+          [templateModulePermissionNames]="templateModulePermissionNames$ | async"
+          (selectTemplateModulePermissionName)="onTemplateModulePermissionNameSelected($event)"
+          (issuePasswordResetRequest)="onIssuePasswordResetRequest($event)">
+      </vsp-user-account-update-form>
+    </form>
+  </nz-card>
+</div>

@@ -1,0 +1,253 @@
+<div class="block" *ngIf="userAccountForm" [formGroup]="userAccountForm">
+  <div class="w-100" nz-row [nzGutter]="16">
+    <div class="bordered-right" nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="8" nzXl="8">
+      <div class="block p-4">
+        <!-- User Avatar -->
+        <div class="my-5">
+          <nz-upload
+              class="avatar-uploader text-center"
+              [nzAction]="uploadAvatarUrl"
+              nzName="avatar"
+              nzListType="picture-card"
+              [nzShowUploadList]="false"
+              [nzBeforeUpload]="beforeUpload"
+              (nzChange)="handleChange($event)">
+            <ng-container *ngIf="!avatarUrl">
+              <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
+              <div class="ant-upload-text">Upload</div>
+            </ng-container>
+            <img *ngIf="avatarUrl" [src]="avatarUrl" style="width: 100%" />
+          </nz-upload>
+          <!-- <img class="block mx-auto my-5" style="border-radius: 50%; width: 128px; height: 128px;" src="https://i.pravatar.cc/300" /> -->
+        </div>
+
+        <!-- User Details Section -->
+        <nz-divider nzOrientation="center" nzText="User Crendentials"></nz-divider>
+        <div formGroupName="user">
+          <nz-form-item>
+            <nz-form-label class="text-left"  [nzXs]="24" nzRequired nzFor="userName">Email / User Name</nz-form-label>
+            <nz-form-control [nzXs]="24" [nzErrorTip]="emailErrorTemplate">
+              <nz-input-group nzPrefixIcon="user">
+                <input vspAutoFocusControl type="text" nz-input formControlName="userName" />
+              </nz-input-group>
+              <ng-template #emailErrorTemplate let-control>
+                <ng-container *ngIf="control.hasError('required')">Email is required!</ng-container>
+                <ng-container *ngIf="control.hasError('emailExists')">Email already exists!</ng-container>
+                <ng-container *ngIf="control.hasError('email')">Invalid email format!</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label class="text-left" [nzXs]="24" nzRequired nzFor="password">Password</nz-form-label>
+            <nz-form-control [nzXs]="24" [nzErrorTip]="passwordErrorTemplate">
+              <nz-input-group nzPrefixIcon="lock">
+                <input type="password" nz-input formControlName="password" />
+              </nz-input-group>
+              <ng-template #passwordErrorTemplate let-control>
+                <ng-container *ngIf="control.hasError('required')">Password is required!</ng-container>
+                <ng-container *ngIf="control.hasError('pattern')">Password must be 6 characters (upper/lower case, numbers and symbols)!</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label class="text-left" [nzXs]="24" nzRequired nzFor="confirmPassword">Confirm Password</nz-form-label>
+            <nz-form-control [nzXs]="24" [nzErrorTip]="confirmPasswordErrorTemplate">
+              <nz-input-group nzPrefixIcon="lock">
+                <input type="password" nz-input formControlName="confirmPassword" />
+              </nz-input-group>
+              <ng-template #confirmPasswordErrorTemplate let-control>
+                <ng-container *ngIf="control.hasError('required')">Confirm Password is required!</ng-container>
+                <ng-container *ngIf="control.hasError('mustMatch')">Confirm Password must match Password!</ng-container>
+                <ng-container *ngIf="control.hasError('pattern')">Password must be 6 characters (upper/lower case, numbers and symbols)!</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- Profile Details Section -->
+        <nz-divider nzOrientation="center" nzText="Profile Details"></nz-divider>
+        <div formGroupName="profile">
+          <nz-form-item>
+            <nz-form-label class="text-left" [nzXs]="24" nzRequired nzFor="firstName">First Name</nz-form-label>
+            <nz-form-control [nzXs]="24" nzErrorTip="Please input your First Name!">
+              <nz-input-group nzPrefixIcon="user">
+                <input type="text" nz-input formControlName="firstName" />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label class="text-left" [nzXs]="24" nzRequired nzFor="lastName">Last Name</nz-form-label>
+            <nz-form-control [nzXs]="24" nzErrorTip="Please input your Last Name!">
+              <nz-input-group nzPrefixIcon="user">
+                <input type="text" nz-input formControlName="lastName" />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      
+      </div>
+    </div>
+    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="16" nzXl="16">
+      <div class="block p-4">
+
+        <!-- Apply Permissions Template Control -->
+        <div class="text-right mb-3">
+          <button
+              nz-button 
+              nzType="default"
+              nzSize="small"
+              title="Apply as saved permission template."
+              [nzLoading]="isLoadingTemplate"
+              [disabled]="isLoadingTemplate"
+              nz-dropdown
+              [nzDropdownMenu]="templateModulerPermissionNameDropdown"
+              nzTrigger="click">
+            <i nz-icon nzType="security-scan" nzTheme="outline"></i>
+            Apply Permissions Template
+            <i nz-icon nzType="down"></i>
+          </button>
+          <nz-dropdown-menu #templateModulerPermissionNameDropdown="nzDropdownMenu">
+            <ul nz-menu>
+              <li 
+                  nz-menu-item 
+                  (click)="onApplyTemplateModulerPermissionName(null)">
+                Default (Blank)
+              </li>
+              <ng-container *ngIf="templateModulePermissionNames">
+                <li 
+                    *ngFor="let templateModulePermissionName of templateModulePermissionNames"
+                    nz-menu-item 
+                    (click)="onApplyTemplateModulerPermissionName(templateModulePermissionName)">
+                  {{ templateModulePermissionName?.name }}
+                </li>
+              </ng-container>
+            </ul>
+          </nz-dropdown-menu>
+        </div>
+        
+        <!-- User Details Section -->
+        <nz-divider nzOrientation="left" nzText="User Permissions"></nz-divider>
+
+        
+
+        <!-- User Permissions Selector -->
+        <ng-container [formGroup]="userAccountForm">
+          <ng-container formArrayName="userModulePermissions">
+            <ng-container [formGroupName]="i" *ngFor="let module of userModulePermissions?.controls; let i = index">
+              <nz-collapse class="mb-2">
+                  <nz-collapse-panel
+                    class="p-0"
+                    [nzHeader]="modulePanelHeader"
+                    [nzActive]="module.value.hasAccess"
+                    [nzDisabled]="!module.value.hasAccess"
+                    [nzShowArrow]="false">
+                  <ng-template #modulePanelHeader>
+                    <div nz-row  [nzGutter]="16">
+                      <div nz-col nzXs="24" nzSm="26" nzMd="12" nzLg="12" nzXl="15" class="permissions-header-text">
+                        <label 
+                            nz-checkbox 
+                            formControlName="hasAccess"
+                            (ngModelChange)="onUserModulePermissionAccessChange($event, module)">
+                          {{ module?.value.modulePermission?.name }}
+                        </label>
+                        <div class="ml-5">
+                          <small><a>
+                            {{ module?.value?.hasAccess ? 'Hide' : 'Show' }} all {{ module?.value?.userPermissions?.length || 0 }} sub permissions</a></small>
+                        </div>
+                      </div>
+                      <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="9" class="permissions-header-actions">
+                        <div class="permissions-header-action">
+                          <div class="permissions-header-action-label">Create</div>
+                          <nz-switch 
+                              nzSize="small"
+                              [nzDisabled]="!module.value.hasAccess"
+                              formControlName="canCreateAll"
+                              (ngModelChange)="onUserModulePermissionCanCreateAllChange($event, module)"
+                              (click)="$event.stopPropagation()">
+                          </nz-switch>
+                        </div>
+                        <div class="permissions-header-action">
+                          <div class="permissions-header-action-label">Read</div>
+                          <nz-switch
+                              nzSize="small" 
+                              [nzDisabled]="!module.value.hasAccess"
+                              formControlName="canReadAll"
+                              (ngModelChange)="onUserModulePermissionCanReadAllChange($event, module)"
+                              (click)="$event.stopPropagation()">
+                          </nz-switch>
+                        </div>
+                        <div class="permissions-header-action">
+                          <div class="permissions-header-action-label">Update</div>
+                          <nz-switch 
+                              nzSize="small" 
+                              [nzDisabled]="!module.value.hasAccess"
+                              formControlName="canUpdateAll"
+                              (ngModelChange)="onUserModulePermissionCanUpdateAllChange($event, module)"
+                              (click)="$event.stopPropagation()">
+                          </nz-switch>
+                        </div>
+                        <div class="permissions-header-action">
+                          <div class="permissions-header-action-label">Delete</div>
+                          <nz-switch 
+                              nzSize="small" 
+                              [nzDisabled]="!module.value.hasAccess"
+                              formControlName="canDeleteAll"
+                              (ngModelChange)="onUserModulePermissionCanDeleteAllChange($event, module)"
+                              (click)="$event.stopPropagation()">
+                          </nz-switch>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                  <ng-container>
+                    <ul class="bordered-none" nz-list nzBordered nzSize="large" formArrayName="userPermissions">
+                      <li 
+                          nz-list-item 
+                          nzNoFlex
+                          [formGroupName]="c"
+                          *ngFor="let permission of getUserPermissionsFormArray(module)?.controls; let c = index">
+                        <div nz-row  [nzGutter]="16">
+                          <div nz-col nzXs="24" nzSm="26" nzMd="12" nzLg="12" nzXl="15"  class="permissions-header-text">
+                            {{ permission?.value?.permission?.name }}
+                          </div>
+                          <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="9" class="permissions-header-actions">
+                            <div class="permissions-header-action">
+                              <label
+                                  formControlName="canCreate"
+                                  nz-checkbox>
+                              </label>
+                            </div>
+                            <div class="permissions-header-action">
+                              <label 
+                                  formControlName="canRead"
+                                  nz-checkbox>
+                              </label>
+                            </div>
+                            <div class="permissions-header-action">
+                              <label 
+                                  formControlName="canUpdate"
+                                  nz-checkbox>
+                              </label>
+                            </div>
+                            <div class="permissions-header-action">
+                              <label 
+                                  formControlName="canDelete"
+                                  nz-checkbox>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </ng-container>
+                </nz-collapse-panel>
+              </nz-collapse>
+
+            </ng-container>
+          </ng-container>
+        </ng-container>
+
+      </div>
+    </div>
+  </div>
+</div>

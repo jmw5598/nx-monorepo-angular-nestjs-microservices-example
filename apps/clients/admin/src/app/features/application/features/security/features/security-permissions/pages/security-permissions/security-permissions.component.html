@@ -1,0 +1,82 @@
+<nz-page-header style="background: white;" class="bordered-bottom" nzTitle="Security Permission Templates" nzBackIcon>
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>
+      <a>Security</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>Permissions</nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <nz-page-header-extra>
+    <a  routerLink="./create" 
+        nz-button 
+        nzType="primary">
+      Create New Permission Template
+    </a>
+  </nz-page-header-extra>
+</nz-page-header>
+
+<div [@fadeAnimation] class="p-4">
+  <nz-card class="w-100 p-0">
+    <div>
+      <div class="mb-3 flex flex-row">
+        <vsp-basic-query-search-with-deleted-filter
+            class="flex-grow-1"
+            [filter]="templateModulePermissionsSearchFilter$ | async"
+            (searchChange)="onSearchFilterChanges($event)">
+        </vsp-basic-query-search-with-deleted-filter>
+        <vsp-datatable-widget-column-editor
+            class="ml-3"
+            [tableDefinition]="securityPermissionsTemplateTableDefinition$ | async"
+            (applyColumnChanges)="onApplyColumnChanges($event)"
+            (resetColumnChanges)="onResetColumnChanges($event)">
+        </vsp-datatable-widget-column-editor>
+      </div>
+      <vsp-datatable      
+          [page]="securityPermissionsTemplatePage$ | async"
+          [definition]="securityPermissionsTemplateTableDefinition$ | async"
+          [actionsContent]="securityPermissionsTemplateActions"
+          [defaultSort]="defaultSort"
+          (pageChange)="onSecurityPermissionsPageChange($event)">
+      </vsp-datatable>
+    </div>
+    <ng-template #securityPermissionsTemplateActions let-row="row">
+      <nz-button-group>
+        <a 
+            class=""
+            [routerLink]="[row.id, 'edit']"
+            nz-button 
+            nzType="default" 
+            nzSize="small"
+            title="Edit">
+          <i nz-icon nzType="edit"></i>
+        </a>
+        <button
+            title="Delete"
+            nz-button 
+            nzType="default" 
+            nzSize="small"
+            nz-popconfirm
+            nzPopoverTrigger="click"
+            nzPopconfirmTitle="Deleting template, are you sure?"
+            nzPopconfirmPlacement="left"
+            nzOkText="Delete"
+            (nzOnConfirm)="onDeleteTemplateModulePermissionName(row)">
+          <i nz-icon nzType="delete"></i>
+        </button>
+        <button
+            *ngIf="row.deletedOn"
+            title="Restore"
+            nz-button 
+            nzType="default" 
+            nzSize="small"
+            nz-popconfirm
+            nzPopoverTrigger="click"
+            nzPopconfirmTitle="Restoring template, are you sure?"
+            nzPopconfirmPlacement="left"
+            nzOkText="Restore"
+            (nzOnConfirm)="onRestoreTemplateModulePermissionName(row)">
+          <i nz-icon nzType="undo"></i>
+        </button>
+      </nz-button-group>
+    </ng-template>
+  </nz-card>
+</div>

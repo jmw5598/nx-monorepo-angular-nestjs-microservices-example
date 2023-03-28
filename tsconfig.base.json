@@ -8,9 +8,9 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es2015",
-    "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "target": "ES2022",
+    "module": "ES2022",
+    "lib": ["ES2022", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
@@ -38,6 +38,12 @@
       ],
       "@vsp/services/logger": [
         "libs/services/logger/src/index.ts"
+      ],
+      "@vsp/admin/*": [
+        "apps/clients/admin/src/app/*"
+      ],
+      "@vsp/admin/env/*": [
+        "apps/clients/admin/src/environments/*"
       ]
     }
   },

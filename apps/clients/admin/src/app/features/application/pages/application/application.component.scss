@@ -1,0 +1,36 @@
+.logo {
+  height: 64px;  
+  background: rgba(255, 255, 255, 0.3);
+}
+
+nz-header {
+  background: none; //background: #fff;
+  padding: 0;
+}
+
+nz-content {
+  margin: 0 16px;
+  height: calc(100vh - 64px - 70px);
+  overflow-y: auto;
+}
+
+nz-breadcrumb {
+  margin: 16px 0;
+}
+
+.inner-content {
+  padding: 24px;
+  background: #fff;
+}
+
+nz-footer {
+  text-align: center;
+}
+
+.user-dropdown-menu {
+  width: 300px;
+}
+
+.sider {
+  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+}

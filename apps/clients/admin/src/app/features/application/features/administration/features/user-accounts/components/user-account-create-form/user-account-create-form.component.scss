@@ -1,0 +1,42 @@
+::ng-deep {
+  .ant-collapse-content {
+    .ant-collapse-content-box {
+      padding: 0;
+    }
+  }
+
+  .ant-collapse {
+    .ant-collapse-item {
+      .ant-collapse-header {
+        display: block;
+        width: 100%;
+      }
+    }
+  }
+
+  .ant-list-bordered.ant-list-lg {
+    .ant-list-item {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+}
+
+.permissions-header-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  .permissions-header-action {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 75px;
+
+    .permissions-header-action-label {
+      font-size: 0.70rem;
+      font-weight: 600;
+    }
+  }
+}

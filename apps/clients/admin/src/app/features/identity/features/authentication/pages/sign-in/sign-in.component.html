@@ -1,0 +1,46 @@
+<nz-card class="bordered-none" [@fadeAnimation]>
+  <form nz-form [formGroup]="signInForm" class="w-100" (ngSubmit)="onSignInUser(signInForm.value)">
+    <nz-page-header nzTitle="Sign In" class="px-0 pb-0 pt-0"></nz-page-header>
+    <nz-alert
+      class="mx-0 mb-4"
+      *ngIf="signInResponseMessage$ | async as message"
+      nzType="error"
+      [nzMessage]="(message?.message) || ''"
+      nzShowIcon
+    ></nz-alert>
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Please input your email!">
+        <nz-input-group nzPrefixIcon="user">
+          <input 
+              vspAutoFocusControl
+              type="text" 
+              nz-input 
+              formControlName="username" 
+              placeholder="Email" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Please input your Password!">
+        <nz-input-group nzPrefixIcon="lock">
+          <input 
+              type="password" 
+              nz-input 
+              formControlName="password" 
+              placeholder="Password" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <div nz-row class="mb-2">
+      <div nz-col [nzSpan]="12">
+        <label nz-checkbox formControlName="rememberMe">
+          <span>Remember me</span>
+        </label>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <a class="sign-in-form-forgot" routerLink="/accounts/forgot-password">Forgot password</a>
+      </div>
+    </div>
+    <button nz-button class="block w-100" [nzType]="'primary'">Sign In</button>
+  </form>
+</nz-card>

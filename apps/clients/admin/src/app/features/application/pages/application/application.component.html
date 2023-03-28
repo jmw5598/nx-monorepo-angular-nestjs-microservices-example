@@ -1,0 +1,121 @@
+<nz-layout [@fadeAnimation] nzTheme="light">
+  <nz-sider 
+      nzCollapsible 
+      nzWidth="250px" 
+      [nzCollapsed]="isCollapsed$ | async" 
+      [nzTrigger]="null" 
+      nzTheme="light" 
+      class="bordered-right sider" style="border-right-color: #e3e3e3;"
+      (nzCollapsedChange)="onToggleNavigationMenu()">
+    <div class="logo bordered-bottom flex flex-row justify-content-center align-items-center">
+      <ng-container *ngIf="(isCollapsed$ | async) === false; else logoCollapsedTemplate">
+        <img class="block" style="max-height: 22px;" src="assets/images/logo.svg">
+      </ng-container>
+      <ng-template #logoCollapsedTemplate>
+        <img class="block" style="max-height: 22px;" src="assets/images/logo-collapsed.svg">
+      </ng-template>
+    </div>
+    <ul 
+        class="bordered-none"
+        nz-menu
+        nzTheme="light" 
+        nzMode="inline">
+      <ng-container *ngFor="let link of defaultNavigationMenu">
+        <ng-container *ngIf="link?.children?.length; else singleNavigationLinkTemplate">
+          <li 
+              nz-submenu 
+              [nzTitle]="link.label" 
+              [nzIcon]="link?.icon || ''">
+            <ul>
+              <ng-container *ngFor="let sublink of link?.children">
+                <li 
+                    nz-menu-item 
+                    [nzMatchRouter]="true"
+                    [routerLinkActive]="['active', 'ant-menu-item-selected']"
+                    [routerLinkActiveOptions]="{ exact: true }">
+                  <a [routerLink]="sublink?.routerLink || ''">
+                    {{ sublink?.label }}
+                  </a>
+                </li>
+              </ng-container>
+            </ul>
+          </li>
+        </ng-container>
+        <ng-template #singleNavigationLinkTemplate>
+          <li 
+              nz-menu-item 
+              [nzMatchRouter]="true"
+              [routerLinkActive]="['active', 'ant-menu-item-selected']"
+              [routerLinkActiveOptions]="{ exact: true }">
+            <i nz-icon [nzType]="link?.icon || ''"></i>
+            <span>
+              <a [routerLink]="[link?.routerLink || '']">
+                {{ link?.label || '' }}
+              </a>
+            </span>
+          </li>
+        </ng-template>
+      </ng-container>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header class="flex flex-row justify-content-between align-items-center">
+      <div class="h-100 px-4">
+        <i
+            class="trigger cursor-pointer"
+            nz-icon
+            [nzType]="(isCollapsed$ | async) ? 'menu-unfold' : 'menu-fold'"
+            (click)="onToggleNavigationMenu()">
+        </i>
+      </div>
+      <nz-avatar
+          class="mr-4 cursor-pointer"
+          [nzSrc]="undefined"
+          nz-dropdown
+          nzTrigger="click"
+          [nzDropdownMenu]="userMenu" 
+          [nzShape]="'circle'" 
+          [nzSize]="'large'" 
+          [nzIcon]="'user'"
+          nzPlacement="bottomRight">
+      </nz-avatar>
+      <nz-dropdown-menu #userMenu="nzDropdownMenu" style="width: 400px;">
+        <ul nz-menu class="user-dropdown-menu">
+          <li nz-menu-item class="py-2 px-3">
+            <div class="flex flex-row">
+              <nz-avatar
+                  class="mr-4"
+                  [nzSrc]="undefined"
+                  [nzShape]="'circle'" 
+                  [nzSize]="'large'" 
+                  [nzIcon]="'user'"
+                  nzPlacement="bottomRight">
+              </nz-avatar>
+              <!-- <div>
+                <h4 class="m-0 fw-bold">{{ settings?.userDetails?.profile?.firstName }} {{ settings?.userDetails?.profile?.lastName }}</h4>
+                <h4 class="m-0">{{ settings?.userDetails?.email }}</h4>
+              </div> -->
+            </div>
+          </li>
+          <li nz-menu-divider></li>
+          <li nz-menu-item class="py-1 px-4">
+            <i class="mr-2" nz-icon nzType="user" nzTheme="outline"></i>
+            <a class="text-dark" routerLink="/app/account/profile">Profile</a>
+          </li>
+          <li nz-menu-item class="py-1 px-4">
+            <i class="mr-2" nz-icon nzType="unlock" nzTheme="outline"></i>
+            <a routerLink="/app/account/settings">Account Settings</a>
+          </li>
+          <li nz-menu-item class="py-1 px-4">
+            <i class="mr-2" nz-icon nzType="poweroff" nzTheme="outline"></i>
+            <a routerLink="/auth/signing-out">Log out</a>
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+    </nz-header>
+    <nz-content class="m-0">
+      <router-outlet></router-outlet>
+    </nz-content>
+    <nz-footer>©2022</nz-footer>
+  </nz-layout>
+</nz-layout>
